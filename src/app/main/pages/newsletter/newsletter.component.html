@@ -1,0 +1,151 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="!showeditmode">
+    <h4 class="card-title">Ecommerce NewsLetter Templetes</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">add new</button>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead *ngIf="!Spinner">
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>type</th>
+                            <th>title</th>
+                            <th>decription</th>
+                            <th>active</th>
+                            <th>Action</th>
+                    </thead>
+                    <tbody *ngIf="!Spinner">
+                        <tr *ngFor="let news of newsletterlist; let i = index" class="text-center">
+                            <td>{{i+1}}</td>
+                            <td>
+                                {{news.type}}</td>
+                            <td>
+                                {{news.title}}</td>
+                            <td>
+                                {{news.decription}}</td>
+                            <td>
+                                <div class="switch d-inline m-r-10">
+                                    <input type="checkbox" id="{{i}}" [(ngModel)]="news.active"
+                                        (ngModelChange)="changestatudtoactive(news.ID)" [disabled]='news.active==true'>
+                                    <label for="{{i}}" class="cr"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success" (click)="editmode(news)"
+                                    style="margin-right: 5px;"><i [data-feather]="'edit'"></i></button>
+                                <button type="submit" class="btn btn-danger"
+                                    (click)="deletetempleteecommerce(news.ID,i)"><i
+                                        [data-feather]="'trash'"></i></button>
+                                <!-- <i [data-feather]="'edit'" style="cursor: pointer;" (click)="editmode(news)"></i> <i
+                                    [data-feather]="'trash'" style="cursor: pointer;"
+                                    (click)="deletetempleteecommerce(news.ID,i)"></i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="showeditmode">
+    <h4 class="card-title">Ecommerce NewsLetter Templetes</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">back</button>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xl-3">
+                <label>Type</label>
+                <input type="text" class="form-control" [(ngModel)]="newsletter.type">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Title</label>
+                <input type="text" class="form-control" [(ngModel)]="newsletter.title">
+            </div>
+            <div class="col-sm-12 col-xl-12">
+                <label>Decriptionn</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="newsletter.decription"></textarea>
+            </div>
+        </div>
+        <br><br>
+        <div *ngIf="!Spinner">
+            <div class="col-md-12 m-b-30" style="display: inline-block;">
+                <label style="display: block;">add photo</label>
+                <div class="imagePreview" style="display: inline-block; margin:5px">
+                    <img src="../newsletter/{{newsletter.imagePath}}" alt="" height="50px">
+                </div>
+                <form [formGroup]="uploadForm" style="display: inline-block;padding-right: 5px;">
+                    <!-- (ngSubmit)="submit()" -->
+                    <!-- Select File -->
+                    <input id="file" type="file" multiple class="form-control" accept="image/png"
+                        (change)="onFileChange($event,in)">
+                </form>
+            </div>
+            <div class="text-center m-t-20">
+                <button class="btn btn-primary" (click)="save()" *ngIf="!proceessing">Save Change</button>
+                <div class="text-center col s10" *ngIf="proceessing">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+
+<ng-template #modalpass let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title"> Enter Password
+        </h5> <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="row">
+            <div class="col-sm-12 col-xl-12">
+                <label>Email</label>
+                <input type="text" class="form-control" [(ngModel)]="templetetosend.SenderEmail" disabled>
+                <br>
+            </div>
+            <div class="col-sm-12 col-xl-12">
+                <label>Password</label>
+                <input type="password" class="form-control" [(ngModel)]="passwordemail">
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center col s10" *ngIf="spinnerSave">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <button type="button" *ngIf="!spinnerSave" class="btn btn-danger md-close"
+            (click)="sendtoall(templetetosend.ID,modalpass)">Send</button>
+        <button type="button" class="btn btn-secondary md-close" (click)="modal.close('Accept click')">Close</button>
+    </div>
+</ng-template>

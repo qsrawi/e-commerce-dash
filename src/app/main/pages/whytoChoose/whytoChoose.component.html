@@ -1,0 +1,124 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="!showeditmode">
+    <h4 class="card-title">Why to Choose Demillus</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">add new</button>
+        </div>
+        <br>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead *ngIf="!Spinner">
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Attachment</th>
+                            <th>Action</th>
+                    </thead>
+                    <tbody *ngIf="!Spinner">
+                        <tr *ngFor="let news of whytoChooselist; let i = index" class="text-center">
+                            <td>{{i+1}}</td>
+                            <td>
+                                <!-- {{news.attachment}} -->
+                                <img src="http://192.119.110.192:5001/whotoChoose/{{news.attachment}}" width="100"
+                                    height="100" alt="No Image Found">
+                            </td>
+                            <td>
+                                <a href="http://192.119.110.192:5001/whotoChoose/{{news.description}}" target="_blank">
+                                    {{news.description}}
+                                </a>
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn btn-success" (click)="editmode(news)"
+                                    style="margin-right: 5px;"><i [data-feather]="'edit'"></i></button>
+                                <button type="submit" class="btn btn-danger"
+                                    (click)="deletewhytochoose(news.id,i)"><i
+                                        [data-feather]="'trash'"></i></button>
+                                <!-- <i [data-feather]="'edit'" style="cursor: pointer;" (click)="editmode(news)"></i> <i
+                                    [data-feather]="'trash'" style="cursor: pointer;"
+                                    (click)="deletetempleteecommerce(news.ID,i)"></i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="showeditmode">
+    <h4 class="card-title">Why to Choose</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">back</button>
+        </div>
+        <!-- <div class="row">
+            <div class="col-sm-12 col-xl-3">
+                <label>Title</label>
+                <input type="text" class="form-control" [(ngModel)]="whytoChoose.title">
+            </div>
+            <div class="col-sm-12 col-xl-12">
+                <label>Decriptionn</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="whytoChoose.decription"></textarea>
+            </div>
+        </div> -->
+        <br><br>
+        <div *ngIf="!Spinner">
+            <div class="col-md-5 m-b-30" style="display: inline-block;">
+                <label style="display: block;">Add photo</label>
+                <div class="imagePreview" style="display: inline-block; margin:5px">
+                    <img src="http://192.119.110.192:5001/whotoChoose/{{whytoChoose.attachment}}" alt="" height="50px">
+                </div>
+                <form [formGroup]="uploadForm" style="display: inline-block;padding-right: 5px;">
+                    <!-- (ngSubmit)="submit()" -->
+                    <!-- Select File -->
+                    <input id="file" type="file" multiple class="form-control" accept="image/*"
+                        (change)="onFileChange($event,in)">
+                </form>
+            </div>
+            <div class="col-md-5 m-b-30" style="display: inline-block;">
+                <label style="display: block;">Add Attachment</label>
+                <div class="imagePreview" style="display: inline-block; margin:5px">
+                    <!-- <img src="http://192.119.110.192:5001/whotoChoose/{{whytoChoose.description}}" alt="" height="50px"> -->
+                    <a href="http://192.119.110.192:5001/whotoChoose/{{whytoChoose.description}}" target="_blank">
+                        {{whytoChoose.description}}
+                    </a>
+                </div>
+                <form [formGroup]="uploadFormatt" style="display: inline-block;padding-right: 5px;">
+                    <!-- (ngSubmit)="submit()" -->
+                    <!-- Select File -->
+                    <input id="file" type="file" multiple class="form-control" accept="*/*"
+                        (change)="onFileChangeatt($event,in)">
+                </form>
+            </div>
+            <div class="col-md-2 text-center" style="display: inline-block;">
+                <button class="btn btn-primary" (click)="save()" *ngIf="!proceessing">Save</button>
+                <div class="text-center col s10" *ngIf="proceessing">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</core-card>

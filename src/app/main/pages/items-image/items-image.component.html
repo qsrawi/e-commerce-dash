@@ -1,0 +1,116 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Item Image</h4>
+    <div class="card-body">
+        <div class="text-center col s10" *ngIf="Spinner"> <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div></div>
+        <!-- <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>         -->
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-md-12">
+                <div class="col-md-2 form-group" style="display: inline-block;">
+                    <label>item ID </label>
+                    <input type="text" class="form-control" placeholder="" style="text-align: center;" name="ItemID"
+                        [(ngModel)]="item.ItemID">
+                </div>
+                <div class="col-md-3 form-group" style="display: inline-block;">
+                    <label>Name</label>
+                    <input type="text" class="form-control" placeholder="" style="text-align: center;" name="ItemEnName"
+                        [(ngModel)]="item.ItemEnName">
+                </div>
+            </div>
+        </div>
+        <!-- border-less-image-gallery -->
+        <!-- <div *ngIf="!Spinner" class="text-center">
+      
+          <ks-modal-gallery [id]="1" [modalImages]="images" [plainGalleryConfig]="plainGalleryGrid"></ks-modal-gallery>
+        </div> -->
+
+        <div *ngIf="!Spinner" class="text-center row">
+            <div class="grid row" style="margin: 0px; max-width: none;">
+                <div *ngFor="let im of imageList; let i = index" style="padding: 10px;">
+                    <div class="row col-md-12" style="margin: 0px;">
+                        <input type="text" class="form-control col-md-8" placeholder="description"
+                            style="text-align: center;display: inline-block;margin: 0px;" name="description"
+                            [(ngModel)]="im.description">
+                        <div class="col-md-1"
+                            style="text-align: center;display: inline-block;margin: 0px;padding: 0px;"></div>
+                        <button type="button" class="btn btn-primary col-md-3"
+                            style="display: inline-block;margin: 0px;" (click)="savedecription(im)"><i
+                            [data-feather]="'save'"></i></button>
+                    </div>
+
+                    <figure class="effect-terry" style="width: 200px;height: 200px;">
+                        <img src="http://192.119.110.192:5001/itemimage/{{im.ImagePath}}" width="200" height="200" alt="advance-5" />
+                        <figcaption>
+                            <p>
+                                <a href="javascript:"><i class="fa fas fa-trash"
+                                        (click)="deleteimage(deleteimage101,im)"></i></a>
+                                <a href="javascript:">
+                                    <i class="fa fa-fw fa-heart" *ngIf="im.isdefault" style="color: red;"></i>
+                                    <i class="fa fa-fw fa-heart" *ngIf="!im.isdefault" (click)="MakeSelected(i)"></i>
+                                </a>
+                            </p>
+                        </figcaption>
+                    </figure>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="demoForm">
+                    <file-upload formControlName="files" accept="image/*"></file-upload>
+                </form>
+                <div class="text-center m-t-20">
+                    <button class="btn btn-primary" (click)="imagesUpload()">Upload Now</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+
+</core-card>
+
+
+
+<ng-template #deleteimage101 let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Are you sure you want to delete thisimage?</h5> <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- <div class="modal-body" tabindex="0" ngbAutofocus>
+        <h5 style="padding-left: 20px;padding-right: 20px;padding-top: 30px;">
+            Choose Identifier:
+        </h5>
+       
+    </div> -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger md-close" (click)="deleteafterconfirm()">yes</button>
+        <button type="button" class="btn btn-secondary md-close" (click)="modal.close('Accept click')">Cancel</button>
+    </div>
+</ng-template>

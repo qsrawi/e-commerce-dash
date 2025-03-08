@@ -1,0 +1,103 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">More To love</h4>
+    <div class="card-body">
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-sm-12 col-xl-3">
+                <h4 class="sub-title">Store</h4>
+                <select class="form-control" id="basicSelect" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()">
+                    <option *ngFor="let a of storeCat" value="{{a.StoreID}}">{{a.StoreEnName}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-12 col-xl-3" *ngIf="categoryList.length>0">
+                <h4 class="sub-title">Main Categories</h4>
+                <div class="text-center col s10" *ngIf="Spinner3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner3" class="form-control" id="basicSelect101" [(ngModel)]="selectedcat"
+                    (ngModelChange)="changecat()">
+                    <option *ngFor="let a of categoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+            </div>
+
+
+            <div class="col-sm-12 col-xl-3" *ngIf="SUBcategoryList.length>0">
+                <h4 class="sub-title">Sub Categories</h4>
+                <div class="text-center col s10" *ngIf="Spinner2">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner2" class="form-control" id="basicSelect101sub" [(ngModel)]="selectedSUBcat"
+                    (ngModelChange)="changeSUBcat()">
+                    <option *ngFor="let a of SUBcategoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+            </div>
+            <!-- <div class="col-sm-12 col-xl-6">
+          </div>
+          <div *ngIf="!Spinner2 && categoryList.length>0" class="col-sm-12 col-xl-2">
+            <h4 class="sub-title">...</h4>
+            <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+          </div> -->
+        </div>
+        <hr>
+        <div class="text-center col s10" *ngIf="ItemSpinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <table class="table table-striped row-border table-hover" *ngIf="!ItemSpinner">
+            <thead>
+                <tr>
+                    <th>ItemID</th>
+                    <th>ItemIDForUser</th>
+                    <th>ItemArName</th>
+                    <th>ItemEnName</th>
+                    <th>Barcode</th>
+                    <th>CategoryID</th>
+                    <th>CategoryID1</th>
+                    <th>MoreToLove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of recomendeditemList; let i = index">
+                    <td>{{ item.ItemID}}</td>
+                    <td>{{ item.ItemIDForUser}}</td>
+                    <td>{{ item.ItemArName}}</td>
+                    <td>{{ item.ItemEnName}}</td>
+                    <td>{{ item.Barcode}}</td>
+                    <td>{{ item.CategoryID}}</td>
+                    <td>{{ item.CategoryID1}}</td>
+                    <td>
+                        <div class="switch d-inline m-r-10">
+                            <input type="checkbox" id="{{i}}" [(ngModel)]="item.IsRecommendedForYou"
+                                (ngModelChange)="changerecomended(item.ItemID,item.IsRecommendedForYou)">
+                            <label for="{{i}}" class="cr"></label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="height: 150px;"></div>
+
+
+
+
+
+    </div>
+
+    <!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+</core-card>

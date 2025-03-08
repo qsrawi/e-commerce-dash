@@ -1,0 +1,212 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Stores and Categories</h4>
+    <div class="card-body">
+        <div class="text-center col s10" *ngIf="Spinner"><img class="center" width="100px" height="100px"
+                src="../../assets/images/loading.gif"></div>
+
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-sm-12 col-xl-4">
+                <h4 class="sub-title">Store</h4>
+                <!-- <ng-select [ngClass]="'ng-select'" [options]="storeoption" [(ngModel)]="selectedstore"
+              (ngModelChange)="changestore()" (search)="searchUsers($event)"> </ng-select> -->
+                <select class="form-control" id="basicSelect" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()">
+                    <option *ngFor="let a of storeCat" value="{{a.StoreID}}">{{a.StoreEnName}}</option>
+
+                </select>
+            </div>
+            <div class="col-sm-12 col-xl-6">
+            </div>
+            <div *ngIf="!Spinner2 && categoryList.length>0" class="col-sm-12 col-xl-2">
+                <h4 class="sub-title" style="color: white;">...</h4>
+                <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+            </div>
+        </div>
+        <div class="text-center col s10" *ngIf="Spinner2"><img class="center" width="100px" height="100px"
+                src="../../assets/images/loading.gif"></div>
+        <div *ngIf="!Spinner2">
+            <div class="row" *ngFor="let cat of categoryList;let indexOfcat=index;">
+                <div class="col-sm-12 col-xl-12">
+                    <hr>
+                </div>
+                <div class="col-sm-12">
+                    <section id="basic-tabs-components">
+                        <div class="row match-height">
+                            <div class="col-xl-12 col-lg-12">
+                                <core-card-snippet [snippetCode]="_snippetCodeBasicTab">
+                                    <div class="card-body">
+                                        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                                            <li ngbNavItem>
+                                                <a ngbNavLink>{{cat.EnName}}</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>ID</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="cat.ID"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>English Name</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="cat.EnName">
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Arabic Name</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="cat.ArName">
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>English Type</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="cat.LKP_Type"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Arabic Type</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;"
+                                                                [(ngModel)]="cat.AR_LKP_Type" disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Store </label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;"
+                                                                [(ngModel)]="cat.StoreEnName" disabled>
+                                                        </div>
+                                                        <!-- <div class="col-sm-12 col-xl-2">
+                                        <label>Sub Category</label>
+                                        <button type="button" class="btn btn-light fas fa-chevron-down form-control" [disabled]='cat.ID==null'
+                                          (click)="getsubcategory(cat.LKP_ID)"></button>
+                                      </div> -->
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                            <li ngbNavItem>
+                                                <a ngbNavLink>Meta</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xl-5">
+                                                            <label>Meta Title</label>
+                                                            <input type="text" class="form-control"
+                                                                [(ngModel)]="cat.MetaTitle">
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-12">
+                                                            <label>Meta Description</label>
+                                                            <textarea class="form-control" rows="3"
+                                                                [(ngModel)]="cat.MetaDescription"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+                                            <li ngbNavItem>
+                                                <a href="javascript:void(0)" ngbNavLink>Sub Categories</a>
+                                                <ng-template ngbNavContent>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xl-10"></div>
+                                                        <div class="col-sm-12 col-xl-2" style="text-align: right;">
+                                                            <button type="button" class="btn btn-success"
+                                                                (click)="addNewSubCategory(indexOfcat)"><i
+                                                                    [data-feather]="'plus'"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngFor="let subcat of cat.subcategorylist">
+                                                        <!-- <div class="col-sm-12 col-xl-1">
+                                        <label>ID</label>
+                                        <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="subcat.ID" disabled>
+                                      </div> -->
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>English Name</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="subcat.EnName">
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Arabic Name</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;" [(ngModel)]="subcat.ArName">
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>English Type</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;"
+                                                                [(ngModel)]="subcat.LKP_Type" disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Arabic Type</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;"
+                                                                [(ngModel)]="subcat.AR_LKP_Type" disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label>Store</label>
+                                                            <input type="text" class="form-control"
+                                                                style="text-align: center;"
+                                                                [(ngModel)]="cat.StoreEnName" disabled>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xl-2">
+                                                            <label style="display: block;">Meta</label>
+                                                            <button class="btn btn-primary" style="display: block;"
+                                                                (click)="opensubcategorymeta(modaleditsub,subcat)"><i
+                                                                    [data-feather]="'plus'"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </li>
+
+                                        </ul>
+                                        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+                                    </div>
+                                </core-card-snippet>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+            <hr>
+            <div class="col-sm-12 col-xl-12" style="text-align: center;" *ngIf="selectedstore!=null">
+                <button type="button" class="btn btn-primary" (click)="newmaincatiegoryrow()"><i
+                        [data-feather]="'plus'"></i></button>
+            </div>
+        </div>
+
+
+    </div>
+
+</core-card>
+
+
+<ng-template #modaleditsub let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title"  id="myModalLabel1" *ngIf="Editsubcat!=null && Editsubcat!=undefined">  Meta For Sub Category -- {{Editsubcat.EnName}}--</h5>
+      <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <div class="modal-body" tabindex="0" ngbAutofocus  *ngIf="Editsubcat!=null && Editsubcat!=undefined">
+        <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <label>Meta Title</label>
+              <input type="text" class="form-control" [(ngModel)]="Editsubcat.MetaTitle">
+              <br>
+            </div>
+            <div class="col-sm-12 col-xl-12">
+              <label>Meta Description</label>
+              <textarea class="form-control" rows="4" [(ngModel)]="Editsubcat.MetaDescription"></textarea>
+            </div>
+          </div>
+    </div>
+    <div class="modal-footer">
+        <img class="center" *ngIf="spinnerSave" width="50px" height="50px" src="../../assets/images/loading.gif">
+       
+      <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+        Cancel
+      </button>
+      <button type="button" *ngIf="!spinnerSave" class="btn btn-danger md-close"
+      (click)="savemetasubcategory()">Save</button>
+    </div>
+  </ng-template>

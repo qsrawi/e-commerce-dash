@@ -1,0 +1,297 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Website Info</h4>
+    <div class="card-body">
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12 col-xl-3">
+                <label>Company Name</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.CompanyName">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Email</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Email">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Contact</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Contact">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Whatsapp</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Whatsapp">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Facebook</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Facebook">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Twitter</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Twitter">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Youtube</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Youtube">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Linkedin</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Linkedin">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Pinterest</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Pinterest">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Snapchat</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Snapchat">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Instagram</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Instagram">
+            </div>
+            <div class="col-sm-12 col-xl-3">
+                <label>Tiktok</label>
+                <input type="text" class="form-control" [(ngModel)]="websiteinfo.Tiktok">
+            </div>
+
+            <div class="col-sm-12 col-xl-3">
+                <label>Color 1</label>
+
+                <input [(colorPicker)]="websiteinfo.color1" class="form-control" [style.background]="websiteinfo.color1" [(ngModel)]="websiteinfo.color1"/>
+
+                <!-- <input type="text" class="form-control" [(ngModel)]="websiteinfo.Instagram"> -->
+            </div>
+
+            <div class="col-sm-12 col-xl-3">
+                <label>Color 2</label>
+                <input [(colorPicker)]="websiteinfo.color2" class="form-control" [style.background]="websiteinfo.color2" [(ngModel)]="websiteinfo.color2"/>
+
+                
+                <!-- <input type="text" class="form-control" [(ngModel)]="websiteinfo.Instagram"> -->
+            </div>
+            <!-- <div class="col-sm-12 col-xl-3 custom-control custom-control-primary custom-switch">
+                <input type="checkbox"  class="custom-control-label" id="ItemColorAndSize"  [(ngModel)]="websiteinfo.ItemColorAndSize">
+                <label  class="custom-control-label" for="ItemColorAndSize">Items Color And Size</label>
+            </div> -->
+
+            <div class="media d-flex align-items-center">
+                <h6 class="font-weight-bolder mr-auto mb-0">Items Color And Size   </h6>
+                <div class="custom-control custom-control-primary custom-switch">
+                  <input
+                    class="custom-control-input"
+                    id="systemNotification"
+                    type="checkbox"
+                    [(ngModel)]="websiteinfo.ItemColorAndSize"
+                  />
+                  <label class="custom-control-label" for="systemNotification"></label>
+                </div>
+              </div>
+            <!-- <div class="switch m-r-10 col-sm-12 col-xl-3">
+                <label class="cr">Items Color And Size</label>
+                <input type="checkbox"  [(ngModel)]="websiteinfo.ItemColorAndSize">
+            </div> -->
+        </div>
+        <br>
+        <div *ngIf="!Spinner" class="row col-sm-12 col-xl-12">
+            <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+        </div>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Message on Status Change</h4>
+
+    <div class="row">
+
+        <div class="col-sm-12 col-xl-3">
+            <label>Text</label>
+            <input type="text" class="form-control" [(ngModel)]="bforder">
+        </div>
+        <div class="col-sm-12 col-xl-2">
+            <label>OrderID</label>
+            <input type="text" class="form-control" placeholder="orderid" disabled>
+        </div>
+        <div class="col-sm-12 col-xl-3">
+            <label>Text</label>
+            <input type="text" class="form-control" [(ngModel)]="Aforder">
+        </div>
+        <div class="col-sm-12 col-xl-2">
+            <label>Amount</label>
+            <input type="text" class="form-control" placeholder="Amount" disabled>
+        </div>
+        <div class="col-sm-12 col-xl-3">
+            <label>Text</label>
+            <input type="text" class="form-control" [(ngModel)]="Afamount">
+        </div>
+        <div class="col-sm-12 col-xl-2">
+            <label>Status</label>
+            <input type="text" class="form-control" placeholder="Status" disabled>
+        </div>
+        <div class="col-sm-12 col-xl-3">
+            <label>Text</label>
+            <input type="text" class="form-control" [(ngModel)]="Afstatus">
+        </div>
+        <div class="col-sm-12 col-xl-3">
+            <label>Message Api Key</label>
+            <input type="text" class="form-control" [(ngModel)]="messageApiKey">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-xl-12">
+            <br>
+            <label>Example</label>
+            <p style="color: black;">{{bforder}} <b>1111</b> {{Aforder}} <b>2000</b> {{Afamount}}
+                <b>STATUSNAME</b> {{Afstatus}}
+            </p>
+        </div>
+    </div>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="savemessage()">Save Change</button>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Logo Managment</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="col-md-12" style="display: inline-block;text-align: center;">
+        <img src="{{imageurl}}" [alt]="" height="200px" width="200px"
+            onerror="this.src='http://beepeers.com/assets/images/commerces/default-image.jpg'">
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form [formGroup]="demoForm">
+                <file-upload formControlName="files" id="file" accept="image/png" multiple="false"></file-upload>
+            </form>
+            <div class="text-center m-t-20">
+                <button class="btn btn-primary" (click)="logochange()">Save Change</button>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Privacy Policy</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='PrivacyPolicy' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="PrivacyPolicychange()">Save Change</button>
+    </div>
+</core-card>
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Terms And Conditions</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='basicContent' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="Termschanges()">Save Change</button>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">About Us</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='Aboutus' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="aboutuschanges()">Save Change</button>
+    </div>
+</core-card>
+
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Contact Us</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='contactus' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="contactuschange()">Save Change</button>
+    </div>
+</core-card>
+
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Navbar Scrolling Text</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='scrollingNews' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="scrollingNewschange()">Save Change</button>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Gift Description</h4>
+
+    <div class="text-center col s10" *ngIf="Spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <app-tinymce [(ngModel)]='GiftDescription' #tinymce='tinymce'></app-tinymce>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="GiftDescriptionchange()">Save Change</button>
+    </div>
+</core-card>
+
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Forgot Password Sender Controller</h4>
+
+    <div class="row">
+
+        <div class="col-sm-12 col-xl-4">
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="Email" [(ngModel)]="websiteinfo.forgorpasswordEmail">
+        </div>
+        <div class="col-sm-12 col-xl-4">
+            <label>Password</label>
+            <input type="text" class="form-control" placeholder="password"
+                [(ngModel)]="websiteinfo.forgotpasswordpassword">
+        </div>
+        <div class="col-sm-12 col-xl-4">
+            <label>Service</label>
+            <input type="text" class="form-control" placeholder="Service Like gmail,hotmail .."
+                [(ngModel)]="websiteinfo.serviceforgotpassword">
+        </div>
+    </div>
+    <div class="text-center m-t-20">
+        <button class="btn btn-primary" (click)="saveforgotPasswordService()">Save Change</button>
+    </div>
+
+</core-card>
+
+<!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->

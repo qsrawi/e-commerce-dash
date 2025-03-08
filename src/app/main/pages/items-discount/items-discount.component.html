@@ -1,0 +1,114 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Items Discount</h4>
+    <div class="card-body">
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-sm-12 col-xl-3">
+                <h4 class="sub-title">Store</h4>
+                <select class="form-control" id="basicSelect" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()">
+                    <option *ngFor="let a of storeCat" value="{{a.StoreID}}">{{a.StoreEnName}}</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-xl-3" *ngIf="categoryList.length>0">
+                <h4 class="sub-title">Main Categories</h4>
+                <div class="text-center col s10" *ngIf="Spinner3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner3" class="form-control" id="basicSelect101" [(ngModel)]="selectedcat"
+                    (ngModelChange)="changecat()">
+                    <option *ngFor="let a of categoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-xl-3" *ngIf="SUBcategoryList.length>0">
+                <h4 class="sub-title">Sub Categories</h4>
+                <div class="text-center col s10" *ngIf="Spinner2">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner2" class="form-control" id="basicSelect101sub" [(ngModel)]="selectedSUBcat"
+                    (ngModelChange)="changeSUBcat()">
+                    <option *ngFor="let a of SUBcategoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-2 form-group text-center" style="display: inline-block;" *ngIf="itemsList.length>0">
+            <input type="number" class="form-control" style="padding-right: 0px;padding-left: 0px;text-align: center"
+                placeholder="Discount %" [(ngModel)]="subCategoreyDiscountPecentage">
+        </div>
+        <div class="col-md-1" style="display: inline-block;" *ngIf="itemsList.length>0">
+            <!-- <h4 class="sub-title" style="color: white;">..</h4> -->
+            <button class="btn btn-success" title="savediscount" (click)="savediscountfun();"
+                style="margin: 0;">Save</button>
+        </div>
+        <div class="col-md-5 form-group" style="display: inline-block;" *ngIf="itemsList.length>0">
+        </div>
+        <div class="col-md-3 form-group text-center" style="display: inline-block;" *ngIf="itemsList.length>0">
+            <input type="text" class="form-control" style="padding-right: 0px;padding-left: 0px;text-align: center"
+                placeholder="Search ..." [(ngModel)]="SearchInput">
+        </div>
+        <div class="text-center col s10" *ngIf="ItemSpinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="table-responsive"  *ngIf="!ItemSpinner">
+            <table class="table table-striped row-border table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th>ItemID</th>
+                        <th>ItemIDForUser</th>
+                        <th>ItemArName</th>
+                        <th>ItemEnName</th>
+                        <th>Barcode</th>
+                        <th>Original price</th>
+                        <th>Discounted price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemsList|ItemfilterPipe:SearchInput; let i = index" class="text-center"
+                        style="vertical-align: middle;">
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemID}}</td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemIDForUser}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemArName}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemEnName}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.Barcode}}</td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{
+                            item.PriceLevel_Price}}</td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle; color: red;"
+                            *ngIf="subCategoreyDiscountPecentage>0">{{ (item.PriceLevel_Price -
+                            (item.PriceLevel_Price*subCategoreyDiscountPecentage/100)).toFixed(2)}}</td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;"
+                            *ngIf="subCategoreyDiscountPecentage==0 || subCategoreyDiscountPecentage==null || subCategoreyDiscountPecentage==undefined">
+                            {{ (item.PriceLevel_Price -
+                            (item.PriceLevel_Price*subCategoreyDiscountPecentage/100)).toFixed(2)}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 150px;"></div>
+
+
+
+
+
+
+    </div>
+
+    <!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+</core-card>

@@ -1,0 +1,63 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Quantities and Appearances</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="!Spinner">
+            <div class="row">
+                <div class="col-sm-12 col-xl-2">
+                    <label>Store English Name</label>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label>Store Arabic Name</label>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label>Action</label>
+                </div>
+            </div>
+            <div class="row" *ngFor="let store of stores;let i=index">
+                <div class="col-sm-12 col-xl-2">
+                    <label></label>
+                    <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="store.StoreEnName"
+                        disabled>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label></label>
+                    <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="store.StoreArName"
+                        disabled>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label style="color: white;">..</label>
+                    <button type="button" class="col-md-12 btn btn-danger" *ngIf="currentstart!=i"
+                        [disabled]="currentstart!=null || store.isActiveForEcommerce==false"
+                        (click)="start(i)">Start</button>
+
+                    <div class="text-center col s10" *ngIf="currentstart==i">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-12 col-xl-2">
+                <label style="display: block;"></label>
+                <div class="switch d-inline m-r-10 col-sm-12 col-xl-2">
+                  <button type="button" class="col-md-12 btn btn-primary" *ngIf="!savestart" (click)="savechanges()">Start</button>
+                </div>
+              </div> -->
+            </div>
+            <br>
+            <!-- <div class="col-sm-12 col-xl-7 col-md-7 text-center">
+              <div class="text-center col-md-3" style="display: inline-block;" *ngIf="savestart">
+                <img class="center" width="50px" height="50px" src="../../assets/images/loading.gif">
+              </div>
+              <button type="button" class="col-md-3 btn btn-primary" *ngIf="!savestart" (click)="savechanges()">Save
+                Changes</button>
+            </div> -->
+        </div>
+    </div>
+</core-card>

@@ -1,0 +1,66 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Estimated Date</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-md-12">
+                <div class="col-md-5 m-b-30" style="display: inline-block;">
+                    <label style="display: block;">add photo</label>
+                    <div class="imagePreview" style="display: inline-block;">
+                        <img [src]="imageURL" [alt]="uploadForm.value.name" height="50px">
+                    </div>
+                    <form [formGroup]="uploadForm" style="display: inline-block;padding-right: 5px;">
+                        <input id="file" type="file" multiple class="form-control" accept="image/*"
+                            (change)="onFileChange($event)">
+                    </form>
+                </div>
+                <div class="col-md-1 m-b-30" style="display: inline-block;">
+                    <button type="submit" class="btn btn-success" (click)="addnewphoto()">save</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-lg-4 col-sm-6 text-center" *ngFor="let img of images; let i = index">
+                <div class="thumbnail mb-4" style="max-height: 250px;overflow: hidden;margin: 0px;">
+                    <div class="thumb">
+                        <ks-modal-gallery [id]="img.id"
+                            [currentImageConfig]="{description: customFullDescriptionHidden}" [modalImages]="[img]"
+                            [dotsConfig]="{visible: false}" [previewConfig]="{visible: false}"></ks-modal-gallery>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger md-close"
+                    (click)="opensendmodal(modaldelete,img)"><i
+                    [data-feather]="'trash'"></i></button>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+
+
+<ng-template #modaldelete let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Are you sure you want to delete?
+        </h5> <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center col s10" *ngIf="spinnerSave">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger md-close" (click)="deleteafterconfirm()">yes</button>
+        <button type="button" class="btn btn-secondary md-close" (click)="modal.close('Accept click')">Close</button>
+    </div>
+</ng-template>

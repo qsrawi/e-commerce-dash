@@ -1,0 +1,243 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Items</h4>
+    <div class="card-body">
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-sm-12 col-xl-3">
+                <h4 class="sub-title">Store</h4>
+                <!-- <ng-select [ngClass]="'ng-select'" [options]="storeoption" [(ngModel)]="selectedstore"
+              (ngModelChange)="changestore()" (search)="searchUsers($event)"> </ng-select> -->
+                <select class="form-control" id="basicSelect" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()">
+                    <option *ngFor="let a of storeCat" value="{{a.StoreID}}">{{a.StoreEnName}}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-12 col-xl-3" *ngIf="categoryList.length>0">
+                <h4 class="sub-title">Main Categories</h4>
+                <!-- <img class="center" *ngIf="Spinner3" width="50px" height="50px" src="../../assets/images/loading.gif"> -->
+                <div class="text-center col s10" *ngIf="Spinner3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner3" class="form-control" id="basicSelect101" [(ngModel)]="selectedcat"
+                    (ngModelChange)="changecat()">
+                    <option *ngFor="let a of categoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+                <!-- <ng-select *ngIf="!Spinner3" [ngClass]="'ng-select'" [options]="catoption" [(ngModel)]="selectedcat"
+              (ngModelChange)="changecat()">
+            </ng-select> -->
+            </div>
+
+
+            <div class="col-sm-12 col-xl-3" *ngIf="SUBcategoryList.length>0">
+                <h4 class="sub-title">Sub Categories</h4>
+                <div class="text-center col s10" *ngIf="Spinner2">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <select *ngIf="!Spinner2" class="form-control" id="basicSelect101sub" [(ngModel)]="selectedSUBcat"
+                    (ngModelChange)="changeSUBcat()">
+                    <option *ngFor="let a of SUBcategoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+                <!-- <img class="center" *ngIf="Spinner2" width="50px" height="50px" src="../../assets/images/loading.gif">
+                <ng-select *ngIf="!Spinner2" [ngClass]="'ng-select'" [options]="SUBcatoption"
+                    [(ngModel)]="selectedSUBcat" (ngModelChange)="changeSUBcat()"> </ng-select> -->
+            </div>
+            <div class="col-sm-12 col-xl-3" *ngIf="itemsList.length>0">
+                <h4 class="sub-title" style="color: white;">..</h4>
+                <button class="btn btn-danger" (click)="openuploadimagemodal(upimages)">Upload Images</button>
+            </div>
+
+            <!-- <div class="col-sm-12 col-xl-6">
+          </div>
+          <div *ngIf="!Spinner2 && categoryList.length>0" class="col-sm-12 col-xl-2">
+            <h4 class="sub-title">...</h4>
+            <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+          </div> -->
+        </div>
+        <hr>
+        <!-- datatable [dtOptions]="dtExportButtonOptions" [dtTrigger]="dtTrigger" -->
+        <div class="col-md-2" style="display: inline-block;">
+            <h4 class="sub-title" style="color: white;">..</h4>
+            <button class="btn btn-success" title="download polo images" (click)="downloadpoloimages();"><i
+                    [data-feather]="'download'"></i> Polo images</button>
+        </div>
+        <div class="col-md-2" style="display: inline-block;">
+            <h4 class="sub-title" style="color: white;">..</h4>
+            <button class="btn btn-success" (click)="openuploadimagemodal(upExcel);"><i [data-feather]="'upload'"></i>
+                Excel
+                File</button>
+        </div>
+        <div class="col-md-5 form-group" style="display: inline-block;">
+        </div>
+        <div class="col-md-3 form-group text-center" style="display: inline-block;">
+            <input type="text" class="form-control" style="padding-right: 0px;padding-left: 0px;text-align: center"
+                placeholder="Search ..." [(ngModel)]="SearchInput">
+        </div>
+        <div class="text-center col s10" *ngIf="ItemSpinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="!ItemSpinner">
+            <table class="table table-striped row-border table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th>ItemID</th>
+                        <th>ItemIDForUser</th>
+                        <th>ItemArName</th>
+                        <th>ItemEnName</th>
+                        <th>Barcode</th>
+                        <!-- <th>CategoryID</th>
+                <th>CategoryID1</th>
+                <th>CategoryID2</th> -->
+                        <!-- <th>RecordDateEntry</th> -->
+                        <th>Visible Ecommerce</th>
+                        <th>haveImage</th>
+                        <th>pic</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemsList|ItemfilterPipe:SearchInput; let i = index" class="text-center"
+                        style="vertical-align: middle;">
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemID}}</td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemIDForUser}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemArName}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.ItemEnName}}
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.Barcode}}</td>
+                        <!-- <td>{{ item.CategoryID}}</td>
+                <td>{{ item.CategoryID1}}</td>
+                <td>{{ item.CategoryID2}}</td> -->
+                        <!-- <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">{{ item.RecordDateEntry | date:'MM/dd/yyyy'}}</td> -->
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">
+                            <div class="switch d-inline m-r-10">
+                                <input type="checkbox" id="{{i}}" [(ngModel)]="item.IsVisibleForEcommerce"
+                                    (ngModelChange)="changerecomended(item.ItemID,item.IsVisibleForEcommerce)">
+                                <label for="{{i}}" class="cr"></label>
+                            </div>
+                        </td>
+                        <td class="text-center" style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;">
+                            <span *ngIf="item.haveImage" style="color: green;"><i
+                                    [data-feather]="'check-square'"></i></span>
+                            <span *ngIf="!item.haveImage" style="color: red;"><i [data-feather]="'x-circle'"></i></span>
+                        </td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;"><button type="button"
+                                class="btn btn-primary" style="padding:inherit;margin:0" data-modal="modal-edit"
+                                (click)="openitemimage(item.ItemID)"><i [data-feather]="'edit'"></i></button></td>
+                        <td style="padding-top: 3px;padding-bottom: 3px;vertical-align: middle;"><button type="button"
+                                class="btn btn-success" style="padding:inherit;margin:0" data-modal="modal-edit"
+                                (click)="openitemsdetails(item.ItemID)"><i [data-feather]="'edit'"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <img class="center" *ngIf="tablespinner" width="50px" height="50px" src="../../assets/images/loading.gif"> -->
+        <!-- <div style="text-align: center;" *ngIf="itemsList.length>0">
+          <button type="button" class="btn btn-primary btn-sm" (click)="loadmoreitem()">load more</button>
+        </div> -->
+        <div style="height: 150px;"></div>
+
+    </div>
+
+    <!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+</core-card>
+
+
+
+<ng-template #upimages let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Upload Images</h5> <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <h5 style="padding-left: 20px;padding-right: 20px;padding-top: 30px;">
+            Choose Identifier:
+        </h5>
+        <div class="form-check" style="padding-bottom: 0px; padding-top: 5px;">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked
+                value="RelatedNo" (change)="onItemChangeRadio($event.target.value)">
+            <label class="form-check-label" for="flexRadioDefault1">
+                Related Number
+            </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 0px;">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="Barcode"
+                (change)="onItemChangeRadio($event.target.value)">
+            <label class="form-check-label" for="flexRadioDefault2">
+                Barcode
+            </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 0px;">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="SAP_Code"
+                (change)="onItemChangeRadio($event.target.value)">
+            <label class="form-check-label" for="flexRadioDefault2">
+                SAP Code
+            </label>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="demoForm">
+                    <file-upload formControlName="files" accept="image/*"></file-upload>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center col s10" *ngIf="upSpiner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger md-close" (click)="up()" *ngIf="!upSpiner">Continue</button>
+        <button type="button" class="btn btn-secondary md-close" (click)="modal.close('Accept click')">Close</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #upExcel let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Upload Images From Excel</h5>
+        <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="demoFormExcel">
+                    <file-upload formControlName="files" accept="file/xlsx"></file-upload>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center col s10" *ngIf="upSpinerExcel">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger md-close" (click)="uptoex()"
+            *ngIf="!upSpinerExcel">Continue</button>
+        <button type="button" class="btn btn-secondary md-close" (click)="modal.close('Accept click')">Close</button>
+    </div>
+</ng-template>

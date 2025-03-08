@@ -1,0 +1,118 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Categories Photos</h4>
+    <div class="card-body">
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!Spinner">
+            <div class="col-sm-12 col-xl-2">
+                <h4 class="sub-title">Store</h4>
+                <!-- <ng-select [ngClass]="'ng-select'" [options]="storeoption" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()"> </ng-select> -->
+                <select class="form-control" id="basicSelect" [(ngModel)]="selectedstore"
+                    (ngModelChange)="changestore()">
+                    <option *ngFor="let a of storeCat" value="{{a.StoreID}}">{{a.StoreEnName}}</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-xl-2" *ngIf="categoryList.length>0">
+                <h4 class="sub-title">Main Categories</h4>
+                <div *ngIf="Spinner3" class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <select *ngIf="!Spinner3" class="form-control" id="basicSelect101" [(ngModel)]="selectedcat"
+                    (ngModelChange)="changecat()">
+                    <option *ngFor="let a of categoryList" value="{{a.ID}}">{{a.EnName}}</option>
+                </select>
+                <!-- <ng-select *ngIf="!Spinner3" [ngClass]="'ng-select'" [options]="catoption" [(ngModel)]="selectedcat"
+                    (ngModelChange)="changecat()">
+                </ng-select> -->
+            </div>
+
+        </div>
+        <br>
+
+        <div class="row" *ngIf="!Spinner && !spinnerSave">
+            <div class="col-sm-12 col-xl-3" *ngIf="categoryList.length>0 && selectedcat!=null">
+                <img *ngIf="imageURL==null" class="center img-fluid img-thumbnail" height="75"
+                    src="http://192.119.110.192:5001/catimages/{{selectedcat}}.png" alt="">
+                <img *ngIf="imageURL!=null" [src]="imageURL" [alt]="" class="center img-fluid img-thumbnail"
+                    height="75">
+            </div>
+        </div>
+        <br>
+        <div *ngIf="spinnerSave" class="center spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="row" *ngIf="!Spinner && !spinnerSave">
+            <div class="col-sm-12 col-xl-3" *ngIf="categoryList.length>0 && selectedcat">
+                <form [formGroup]="uploadForm" style="display: inline-block;">
+                    <input id="file" type="file" single class="form-control" accept="image/png"
+                        (change)="onFileChange($event)">
+                </form>
+            </div>
+            <div class="col-sm-12 col-xl-2 col-md-2" *ngIf="categoryList.length>0 && selectedcat">
+                <button type="button" class="btn btn-primary" (click)="savemaincatimage()">Save</button>
+            </div>
+        </div>
+
+        <div class="container" *ngIf="SUBcategoryList.length>0">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-image">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Image</th>
+                                <th>Sub Category Name</th>
+                                <th>Change</th>
+                                <th>Save Change</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let sub of SUBcategoryList;let ind=index" class="text-center">
+                                <td>
+                                    <img src="http://192.119.110.192:5001/catimages/{{sub.ID}}.png"
+                                        *ngIf="ind!=spinnerselectedinded && sub.ImageToShow==null" width="200"
+                                        height="200" alt="No Image Found">
+                                    <img [src]="sub.ImageToShow"
+                                        *ngIf="ind!=spinnerselectedinded && sub.ImageToShow!=null" width="200"
+                                        height="200" alt="No Image Found">
+                                    <div *ngIf="ind==spinnerselectedinded" class="spinner-border text-primary"
+                                        role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+
+                                </td>
+                                <td>{{sub.EnName}}</td>
+                                <td>
+                                    <form [formGroup]="uploadForm" style="display: inline-block;padding-right: 5px;">
+                                        <input id="file" type="file" multiple class="form-control" accept="image/*"
+                                            (change)="onFileChangesub($event,ind)">
+                                    </form>
+                                </td>
+                                <td><button type="button" class="btn btn-success"
+                                        [disabled]="sub.ImageToUpload==null || sub.ImageToUpload==undefined"
+                                        (click)="savesubcatimage(ind)">Save</button></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger text-center"
+                                        style="text-align:center;padding: 10px" (click)="removeimage(sub.ID)">
+                                        <i [data-feather]="'trash'"></i></button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div> -->
+</core-card>

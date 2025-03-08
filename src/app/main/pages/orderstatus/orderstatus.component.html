@@ -1,0 +1,75 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Orders Status</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div *ngIf="!Spinner">
+            <div class="row">
+                <div class="col-sm-12 col-xl-2">
+                    <label>ID</label>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label>English Name</label>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label>Arabic Name</label>
+                </div>
+                <div class="col-sm-12 col-xl-1">
+                    <label>Default</label>
+                </div>
+                <div class="col-sm-12 col-xl-1">
+                    <label>Delete</label>
+                </div>
+            </div>
+            <div class="row" *ngFor="let status of OrderTrackList;let i=index">
+                <div class="col-sm-12 col-xl-2">
+                    <label></label>
+                    <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="status.ID"
+                        disabled>
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label></label>
+                    <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="status.EnName">
+                </div>
+                <div class="col-sm-12 col-xl-2">
+                    <label></label>
+                    <input type="text" class="form-control" style="text-align: center;" [(ngModel)]="status.ArName">
+                </div>
+                <div class="col-sm-12 col-xl-1">
+                    <label style="display: block;color: white;">.</label>
+                    <div class="switch d-inline m-r-10 col-sm-12 col-xl-2">
+                        <input type="checkbox" id="{{i}}" [(ngModel)]="status.IsActive"
+                            (ngModelChange)="changestatudtoactive(status.ID)"
+                            [disabled]='status.ID==null || status.IsActive==true'>
+                        <label for="{{i}}" class="cr"></label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-1 col-md-1 text-left">
+                    <label style="display: block;color: white;">.</label>
+                    <button type="button" class="col-xs-1 btn btn-danger" style="text-align:center;padding: 10px"
+                        (click)="deletestatus(status)">
+                        <i [data-feather]="'trash'"></i></button>
+                </div>
+            </div>
+            <br>
+            <div class="col-sm-12 col-xl-6 col-md-6">
+                <button type="button" class="col-md-1 btn btn-success text-center" style="padding: 10px;"
+                    (click)="addnewstatus()"><i [data-feather]="'plus'"></i></button>
+                <div class="col-md-3" style="display: inline-block;"></div>
+                <div class="text-center col-md-3" style="display: inline-block;" *ngIf="savestart">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <button type="button" class="col-md-3 btn btn-primary" *ngIf="!savestart" (click)="savechanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</core-card>

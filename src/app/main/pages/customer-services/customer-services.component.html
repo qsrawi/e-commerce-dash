@@ -1,0 +1,37 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+    <h4 class="card-title">Customer Services</h4>
+    <div class="card-body">
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="!Spinner">
+            <core-card *ngFor="let cus of CustomerServiceslist;let in=index" (events)="emittedEvents($event)"
+                [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+                <h4 class="card-title">{{cus.pagetitle}}</h4>
+                <div class="card-body">
+                    <app-tinymce [(ngModel)]='cus.pageString' #tinymce='tinymce'></app-tinymce>
+                    <br>
+                    <div class="col-md-12 m-b-30" style="display: inline-block;">
+                        <label style="display: block;">add photo</label>
+                        <div *ngIf="cus.imagePath!=null && cus.imagePath!=undefined && cus.imagePath.length>1 && cus.imagePath!='undefined'"
+                            class="imagePreview" style="display: inline-block; margin:5px">
+                            <img src="../customerserviceimages/{{cus.imagePath}}" [alt]="uploadForm.value.name"
+                                height="50px" onerror="this.src='https://ayjoe.engrave.site/img/default.jpg'">
+                        </div>
+                        <form [formGroup]="uploadForm" style="display: inline-block;padding-right: 5px;">
+                            <!-- (ngSubmit)="submit()" -->
+                            <!-- Select File -->
+                            <input id="file" type="file" multiple class="form-control" accept="image/png"
+                                (change)="onFileChange($event,in)">
+                        </form>
+                    </div>
+                    <div class="text-center m-t-20">
+                        <button class="btn btn-primary" (click)="update(cus,in)">Save Change</button>
+                    </div>
+                </div>
+            </core-card>
+        </div>
+    </div>
+</core-card>

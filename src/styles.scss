@@ -1,0 +1,18 @@
+@import '@core/scss/core.scss';
+@import './assets/scss/styles';
+@import "~tinymce/skins/lightgray/skin.min.css";
+@import "~tinymce/skins/lightgray/content.min.css";
+
+ks-modal-gallery .plain-container .image {
+    width: auto !important;
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: auto;
+}
+
+.border-less-image-gallery ks-modal-gallery .plain-container .image {
+    border: none;
+}

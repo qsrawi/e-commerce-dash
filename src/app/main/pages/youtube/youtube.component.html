@@ -1,0 +1,89 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="!showeditmode">
+    <h4 class="card-title">Why to Choose Demillus</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">add new</button>
+        </div>
+        <br>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead *ngIf="!Spinner">
+                        <tr class="text-center">
+                            <th>#</th>
+                            <th>Link</th>
+                            <th>Action</th>
+                    </thead>
+                    <tbody *ngIf="!Spinner">
+                        <tr *ngFor="let news of youtubelist; let i = index" class="text-center">
+                            <td>{{i+1}}</td>
+                
+                            <td>
+                                <a href="{{news.attachment}}" target="_blank">
+                                    {{news.attachment}}
+                                </a>
+                            </td>
+
+                            <td>
+                                <button type="submit" class="btn btn-success" (click)="editmode(news)"
+                                    style="margin-right: 5px;"><i [data-feather]="'edit'"></i></button>
+                                <button type="submit" class="btn btn-danger"
+                                    (click)="deleteyoutube(news.id,i)"><i
+                                        [data-feather]="'trash'"></i></button>
+                                <!-- <i [data-feather]="'edit'" style="cursor: pointer;" (click)="editmode(news)"></i> <i
+                                    [data-feather]="'trash'" style="cursor: pointer;"
+                                    (click)="deletetempleteecommerce(news.ID,i)"></i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</core-card>
+
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'"
+    *ngIf="showeditmode">
+    <h4 class="card-title">New Link</h4>
+    <div class="card-body">
+
+
+        <div class="text-center col s10" *ngIf="Spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success" (click)="addnewmode()">back</button>
+        </div>
+
+        <br><br>
+        <div *ngIf="!Spinner">
+
+            <div class="col-md-5 m-b-30" style="display: inline-block;">
+                <label style="display: block;">Add Link</label>
+                <input type="text" class="form-control" [(ngModel)]="youtube.attachment">
+
+            </div>
+            <div class="col-md-2 text-center" style="display: inline-block;">
+                <button class="btn btn-primary" (click)="save()" *ngIf="!proceessing">Save</button>
+                <div class="text-center col s10" *ngIf="proceessing">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</core-card>

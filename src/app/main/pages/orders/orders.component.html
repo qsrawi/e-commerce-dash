@@ -1,0 +1,317 @@
+<core-card (events)="emittedEvents($event)" [actions]="['collapse', 'expand', 'reload', 'close']" [reloadTime]="'1000'">
+  <h4 class="card-title">Orders</h4>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3 m-b-30">
+        <h5>From</h5>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="startdate"
+            ngbDatepicker #basicDP="ngbDatepicker" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle()" type="button"
+              rippleEffect></button>
+          </div>
+        </div>
+        <!-- <input type="date" id="dateDefault" class="form-control" placeholder="Date" [(ngModel)]="startdate"> -->
+      </div>
+      <div class="col-md-3 m-b-30">
+        <h5>To</h5>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="enddate"
+            ngbDatepicker #basicDP2="ngbDatepicker" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP2.toggle()" type="button"
+              rippleEffect></button>
+          </div>
+        </div>
+        <!-- <input type="date" id="dateDefault" class="form-control" placeholder="Date" [(ngModel)]="enddate"> -->
+      </div>
+      <div class="col-md-3 m-b-30">
+        <label style="display: block;color: white;">...</label>
+        <button type="button" class="btn btn-outline-primary" (click)="get()">Show</button>
+      </div>
+      <div class="col-md-1 m-b-30">
+      </div>
+      <div class="col-md-2 m-b-30">
+        <!-- <label style="display: block;">Filter By Status</label>
+          <ng-select [ngClass]="'ng-select'" [options]="statusoption" [(ngModel)]="filterstatus"
+            [disabled]='OrderList.length<1'>
+          </ng-select> -->
+        <div class="form-group">
+          <label for="basicSelect">Filter By Status</label>
+          <select class="form-control" id="basicSelect" [(ngModel)]="filterstatus" [disabled]='OrderList.length<1'>
+            <option *ngFor="let a of OrderTrackList" value="{{a.LKP_ID}}">{{a.EnName}}</option>
+
+          </select>
+        </div>
+        <!-- (ngModelChange)="changeorderStatus(order.VoucherID,order.StatusID)"  -->
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6" *ngFor="let order of OrderList|MyOrderfilter:filterstatus; let i = index"
+      style="display: inline-block;">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="mb-3">
+            <h5 class="d-inline-block m-b-10">{{order.FullName}}</h5>
+            <div class="dropdown-secondary float-right" ngbDropdown>
+              <span>Status : </span>
+              <!-- <button class="btn btn-primary btn" ngbDropdownToggle type="button">Overdue</button>
+              <div ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:">Pending</a>
+                <a class="dropdown-item" href="javascript:">Paid</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item active" href="javascript:">On Hold</a>
+                <a class="dropdown-item" href="javascript:">Canceled</a>
+              </div> -->
+              <select class="form-control" id="StatusID-{{i}}" [(ngModel)]="order.StatusID" [disabled]='change'
+                (ngModelChange)="changeorderStatus(order.VoucherID,order.StatusID)">
+                <option *ngFor="let a of OrderTrackList" value="{{a.LKP_ID}}">{{a.EnName}}</option>
+              </select>
+              <!-- <ng-select
+              [items]="OrderTrackList"
+              bindLabel="EnName"
+              bindValue="LKP_ID"
+              [(ngModel)]="order.StatusID"
+            >
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{ item.country || 'Unnamed group' }}
+              </ng-template>
+            </ng-select> -->
+              <!-- <ng-select [ngClass]="'ng-select'" [options]="statusoption" [(ngModel)]="order.StatusID"
+                (ngModelChange)="changeorderStatus(order.VoucherID,order.StatusID)" [disabled]='change'>
+              </ng-select> -->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="list list-unstyled">
+                <li>Invoice #: &nbsp;{{order.VoucherID}}</li>
+                <li>Purchased On: <span class="text-semibold">{{order.VoucherDate | date:'dd-MM-yyyy'}}</span></li>
+                <li>Payment Method: <span class="text-semibold">Cash on hand</span></li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <ul class="list list-unstyled text-right">
+                <li>{{getordertotal(order.orderItems)}} {{order.CurruncySymbol}}</li>
+                <li>Ship to: <span class="text-semibold">{{order.billingAddress.address}}</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="m-t-0">
+            <div class="task-list-table col-md-4" style="display: inline-block;">
+              <p class="task-due"><strong> Estimated time : </strong> <input type="date" id="dateDefault"
+                  class="form-control" placeholder="Date" [(ngModel)]="order.DueDate"
+                  (change)="changeinestimatetime(order)">
+              </p>
+            </div>
+            <div class="task-list-table col-md-8 text-right" style="display: inline-block;padding: 0px;">
+              <a href="javascript:" class="btn btn-primary"
+                (click)="openorderdetModa(order,modalSLC);"><i [data-feather]="'eye'" ></i></a>
+            </div>
+            <!-- <div class="task-board m-0 float-right">
+              <a href="javascript:" class="btn btn-primary"
+                (click)="openorderdetModa(order);myLargeModalLabel.show();"><i class="fas fa-eye m-0"></i></a> -->
+            <!-- <div class="dropdown-secondary d-inline" ngbDropdown>
+                <button class="btn btn-primary" ngbDropdownToggle type="button"><i class="fas fa-bars"></i></button>
+                <div ngbDropdownMenu>
+                  <a class="dropdown-item" href="javascript:"><i class="fas fa-bell"></i> Print Invoice</a>
+                  <a class="dropdown-item" href="javascript:"><i class="fas fa-download"></i> Download invoice</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="javascript:"><i class="fas fa-edit"></i> Edit Invoice</a>
+                  <a class="dropdown-item" href="javascript:"><i class="fas fa-trash"></i> Remove Invoice</a>
+                </div>
+              </div> -->
+            <!-- </div> -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</core-card>
+
+<ng-template #modalSLC let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title"  id="myModalLabel1" *ngIf="orderdet!=null && orderdet!=undefined">Order#{{orderdet.VoucherID}}</h5>
+    <!-- <h4 class="modal-title">Scrolling long Content</h4> -->
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" tabindex="0" ngbAutofocus  *ngIf="orderdet!=null && orderdet!=undefined">
+    <div class="row">
+      <!-- [ Invoice ] start -->
+      <div class="container" id="contentToConvert">
+        <div>
+          <div class="card">
+            <div class="row invoice-contact" style="padding:0px;margin-bottom: 0px;">
+              <div class="col-md-8">
+                <div class="invoice-box row">
+                  <div class="col-sm-12">
+                    <img src="http://192.119.110.192:5001/logo/logo.png" class="m-b-10" width="180px" height="50px" alt="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4" style="text-align: right;">
+                <ngx-barcode [bc-value]="barcodeValue" [bc-display-value]="true"></ngx-barcode>
+              </div>
+            </div>
+            <div class="card-block" style="padding-top: 0px;">
+              <div class="row invoive-info">
+                <div class="col-md-3 col-xs-12 invoice-client-info">
+                  <h6>Client Information :</h6>
+                  <h6 class="m-0">{{orderdet.FullName}}</h6>
+                  <!-- <p class="m-0 m-t-10">1065 Mandan Road, Columbia MO, Missouri. (123)-65202</p>
+                  <p class="m-0">(1234) - 567891</p>
+                  <p><a class="text-secondary" href="mailto:demo@gmail.com" target="_top">demo@gmail.com</a></p> -->
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <h6>Order Information :</h6>
+                  <table class="table table-responsive invoice-table invoice-order table-borderless">
+                    <tbody>
+                      <tr>
+                        <th>Date :</th>
+                        <td>{{orderdet.VoucherDate| date:'MM/dd/yyyy'}}</td>
+                      </tr>
+                      <tr id='Statusshowhide'>
+                        <th>Status :</th>
+                        <td>
+                          <span class="label label-success">{{getstutusbyid(orderdet.StatusID)}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Id :</th>
+                        <td>
+                          #{{orderdet.VoucherID}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-3 col-xs-12 invoice-client-info">
+                  <h6>Shipping Information :</h6>
+                  <h6 class="m-0">{{orderdet.billingAddress.firstName}} {{orderdet.billingAddress.lastName}}</h6>
+                  <p class="m-0">{{orderdet.billingAddress.phone}}</p>
+                  <p style="margin-bottom: 0;"><a class="text-secondary"
+                      href="mailto:{{orderdet.billingAddress.email}}"
+                      target="_top">{{orderdet.billingAddress.email}}</a></p>
+                  <p class="m-0">{{orderdet.billingAddress.country}}</p>
+                  <p class="m-0">{{orderdet.billingAddress.city}}</p>
+                  <p class="m-0">{{orderdet.billingAddress.address}}</p>
+
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <h6 class="m-b-20">Invoice Number <span>#{{orderdet.VoucherID}}</span></h6>
+                  <h6 class="text-uppercase text-primary">Total Due :
+                    <span>{{getordertotal(orderdet.orderItems)}} {{orderdet.CurruncySymbol}}</span>
+                  </h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="table-responsive" >
+                    <table class="table invoice-detail-table">
+                      <thead>
+                        <tr class="thead-default">
+                          <th>Image</th>
+                          <th>Description</th>
+                          <th>Barcode</th>
+                          <th>Size</th>
+                          <th>Color</th>
+                          <th>Quantity</th>
+                          <th>Amount</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let oo of getitems(); let i = index">
+                          <td>
+                              <img *ngIf="oo.itemimages!=undefined && oo.itemimages.length>0" src="../itemimage/{{oo.itemimages[0].ImagePath}}" class="m-b-10" width="50px" height="50px" alt="">
+                              <i *ngIf="oo.itemimages.length==0 || oo.itemimages==undefined">-</i>
+                          </td>
+                          <td>
+                            <b>{{oo.ItemEnName}} </b>
+                          </td>
+                          <td>
+                            {{oo.Barcode}}
+                          </td>
+                          <td>
+                            {{oo.sizeEnName}}
+                          </td>
+                          <td>
+                            {{oo.colorEnName}}
+                          </td>
+                          <td>{{oo.quantity}}</td>
+                          <td>{{oo.PriceLevel_Price/oo.TheRate}}</td>
+                          <td>{{(oo.PriceLevel_Price*oo.quantity)/oo.TheRate}} {{orderdet.CurruncySymbol}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-9"></div>
+                <div class="col-sm-3">
+                  <table class="table table-responsive invoice-table invoice-total">
+                    <tbody>
+                      <tr>
+                        <th>Sub Total :</th>
+                        <td>{{getordertotal(orderdet.orderItems)}} {{orderdet.CurruncySymbol}}</td>
+                      </tr>
+                      <!-- <tr>
+                      <th>Taxes (10%) :</th>
+                      <td>$57.00</td>
+                    </tr>
+                    <tr>
+                      <th>Discount (5%) :</th>
+                      <td>$45.00</td>
+                    </tr> -->
+                      <tr class="text-info">
+                        <td>
+                          <hr />
+                          <h5 class="text-primary m-r-10">Total :</h5>
+                        </td>
+                        <td>
+                          <hr />
+                          <h5 class="text-primary">{{getordertotal(orderdet.orderItems)}}
+                            {{orderdet.CurruncySymbol}}</h5>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-sm-12">
+                  <h6>Terms And Condition :</h6>
+                  <p>lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  </p>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="row text-center" id='openration'>
+            <div class="col-sm-12 invoice-btn-group text-center">
+              <!-- <button type="button" class="btn btn-primary btn-print-invoice m-b-10">Print</button> -->
+              <button type="button" class="btn btn-primary" style="margin-right: 5px;" (click)="captureScreen()"> <i [data-feather]="'printer'" ></i></button>
+              <button type="button" class="btn btn-secondary" (click)="modal.close('Accept click')">Cancel</button>
+            </div>
+          </div>
+          <div>
+            copyright - © ERPEasy Solutions. All rights reserved
+          </div>
+        </div>
+      </div>
+      <!-- [ Invoice ] end -->
+    </div>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+      Accept
+    </button>
+  </div> -->
+</ng-template>
