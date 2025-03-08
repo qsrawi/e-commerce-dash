@@ -53,7 +53,7 @@
     "mousetrap": "^1.6.5",
     "ng-block-ui": "3.0.2",
     "ng2-flatpickr": "9.0.0",
-    "ngx-barcode": "^0.3.0",
+    "ngx-barcode": "0.3.0",
     "ngx-color-picker": "^13.0.0",
     "ngx-highlightjs": "4.1.4",
     "ngx-perfect-scrollbar": "10.1.1",
