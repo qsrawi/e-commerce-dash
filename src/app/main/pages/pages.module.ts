@@ -28,7 +28,6 @@ import { SellingFastComponent } from './selling-fast/selling-fast.component';
 import { WebSiteInfoComponent } from './web-site-info/web-site-info.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CustomerServicesComponent } from './customer-services/customer-services.component';
-import { TinymceModule } from 'angular2-tinymce';
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NewslettertempleteComponent } from './newslettertemplete/newslettertemplete.component';
 import { OrderstatusComponent } from './orderstatus/orderstatus.component';
@@ -193,7 +192,6 @@ const routes = [
     CoreCardModule,
     NgxBarcodeModule,
     FileUploadModule,
-    TinymceModule,
     GalleryModule.forRoot(),
     ColorPickerModule
 
