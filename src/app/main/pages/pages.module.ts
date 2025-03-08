@@ -7,7 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { CoreCommonModule } from '@core/common.module';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-import { NgxBarcodeModule } from 'ngx-barcode';
+// import { NgxBarcodeModule } from 'ngx-barcode';
 
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
