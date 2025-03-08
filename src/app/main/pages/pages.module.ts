@@ -7,12 +7,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { CoreCommonModule } from '@core/common.module';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
-// import { NgxBarcodeModule } from 'ngx-barcode';
+import { NgxBarcode6Module } from 'ngx-barcode6';
 
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { SliderManagerComponent } from './slider-manager/slider-manager.component';
-import { RouterModule } from '@angular/router';
 import { OrdersComponent } from './orders/orders.component';
 import { StoresandcategoriesComponent } from './storesandcategories/storesandcategories.component';
 import { CoreCardModule } from '@core/components/core-card/core-card.module';
@@ -43,6 +42,7 @@ import { cu_articlesComponent } from './cu-articles/cu-articles.component';
 import { youtubeComponent } from './youtube/youtube.component';
 import { BrandStoryComponent } from './BrandStory/BrandStory.component';
 import { cu_BrandStoryComponent } from './cu-BrandStory/cu-BrandStory.component';
+import { RouterModule } from '@angular/router';
 
 const routes = [
   {
@@ -190,14 +190,14 @@ const routes = [
     AuthenticationModule,
     MiscellaneousModule,
     CoreCardModule,
-    NgxBarcodeModule,
+    NgxBarcode6Module,
     FileUploadModule,
     GalleryModule.forRoot(),
     ColorPickerModule
 
   ],
 
-  exports: [SliderManagerComponent, GalleryModule,],
+  exports: [SliderManagerComponent, GalleryModule],
 
   providers: []
 })
